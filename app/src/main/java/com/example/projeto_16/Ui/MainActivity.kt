@@ -21,12 +21,12 @@ class MainActivity : AppCompatActivity() {
     private lateinit var contactList: ArrayList <ContactModel>
     private lateinit var adapter: ArrayAdapter <ContactModel>
     private lateinit var result: ActivityResultLauncher<Intent>
-    private lateinit var dbHelper: DBHelper
+    private lateinit var db: DBHelper.DatabaseHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-
+        db = DBHelper.getInstance(this)
         val sharedPreferences = application.getSharedPreferences("LoginPrefs", MODE_PRIVATE)
 
         loadList()
@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
         }
         result = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.data!=null && it.resultCode == RESULT_OK) {
-                contactList = dbHelper.getAllContact()
+                contactList = db.getAllContact()
                 adapter.notifyDataSetChanged()
 
             }else if (it.resultCode == RESULT_CANCELED) {
@@ -66,7 +66,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun loadList() {
 
-        contactList = dbHelper.getAllContact()
+        contactList = db.getAllContact()
 
         adapter =
             ArrayAdapter(

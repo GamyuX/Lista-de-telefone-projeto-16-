@@ -28,7 +28,7 @@ class ContactDetailActivity : AppCompatActivity() {
 
         val i = intent
         val id = i.extras?.getInt("id", 0)
-        db = DBHelper(applicationContext)
+        db = DBHelper()
 
         if (id != null) {
             contactModel = db.getContact(id)

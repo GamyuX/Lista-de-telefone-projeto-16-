@@ -15,7 +15,7 @@ import kotlin.text.isNotEmpty as isNotEmpty1
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
-
+    private lateinit var db: DBHelper.DatabaseHelper
     private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,7 +26,7 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val db = DBHelper(this)
+         db = DBHelper.getInstance(this)
 
         sharedPreferences = application.getSharedPreferences("LoginPrefs", MODE_PRIVATE)
         val username = sharedPreferences.getString("username", "")
@@ -43,6 +43,7 @@ class LoginActivity : AppCompatActivity() {
             val logged = binding.checkBoxLogged.isChecked
 
             if (username.isNotEmpty1() && password.isNotEmpty1()) {
+
                 if (db.login(username, password)) {
                     if (logged) {
                         val editor: SharedPreferences.Editor = sharedPreferences.edit()
