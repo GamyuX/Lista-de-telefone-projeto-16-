@@ -22,7 +22,7 @@ class NewContactActivity : AppCompatActivity() {
         binding = ActivityNewContactBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val db = DBHelper()
+        val db = DBHelper.getInstance(this)
         val i = intent
 
         binding.buttonAdd.setOnClickListener {

@@ -25,12 +25,14 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         android:gravity="center"
         android:id="@+id/edit_name"
         android:enabled="false"
         android:hint="nome"/>
 
     <EditText
+        android:layout_margin="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -38,22 +40,56 @@
         android:id="@+id/edit_address"
         android:hint="address"/>
 
-    <EditText
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/edit_email"
-        android:gravity="center"
-        android:enabled="false"
-        android:hint="Email"/>
+        android:layout_margin="10dp"
+        android:orientation="horizontal">
 
-    <EditText
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="6"
+            android:id="@+id/edit_email"
+            android:gravity="center"
+            android:enabled="false"
+            android:hint="Email"/>
+
+        <ImageView
+            android:id="@+id/image_email"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/baseline_email_24"/>
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/edit_phone"
-        android:gravity="center"
-        android:enabled="false"
-        android:inputType="phone"
-        android:hint="telefone"/>
+        android:layout_margin="10dp"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/edit_phone"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="9"
+            android:enabled="false"
+            android:gravity="center"
+            android:hint="telefone"
+            android:inputType="phone" />
+
+        <ImageView
+            android:id="@+id/image_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/baseline_local_phone_24"/>
+
+    </LinearLayout>
+
+
+
     
     <LinearLayout
         android:layout_width="match_parent"

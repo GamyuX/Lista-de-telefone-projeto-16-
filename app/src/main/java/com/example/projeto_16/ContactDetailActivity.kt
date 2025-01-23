@@ -1,6 +1,8 @@
 package com.example.projeto_16
 
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -8,7 +10,9 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import com.example.projeto_16.Model.ContactModel
+import com.example.projeto_16.R
 import com.example.projeto_16.databinding.ActivityContactDetailBinding
 import dataBase.DBHelper
 
@@ -19,6 +23,7 @@ class ContactDetailActivity : AppCompatActivity() {
     private var contactModel = ContactModel()
     private lateinit var launcher: ActivityResultLauncher<Intent>
     private var imageId: Int? = -1
+    private val REQUEST_PHONE_CALL = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,13 +33,41 @@ class ContactDetailActivity : AppCompatActivity() {
 
         val i = intent
         val id = i.extras?.getInt("id", 0)
-        db = DBHelper()
+        val db = DBHelper.getInstance(this)
 
         if (id != null) {
             contactModel = db.getContact(id)
             populate()
         } else {
             finish()
+        }
+
+        binding.imageEmail.setOnClickListener {
+            val emailIntent = Intent(Intent.ACTION_SEND)
+            emailIntent.type = "text/plain"
+            emailIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf(contactModel.email))
+            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Assunto")
+            emailIntent.putExtra(Intent.EXTRA_TEXT, "Texto")
+            try {
+                startActivity(Intent.createChooser(emailIntent, "Escolha um aplicativo"))
+            }catch (e:Exception){
+                Toast.makeText(applicationContext, "Erro ao enviar email", Toast.LENGTH_SHORT).show()
+            }
+        }
+        binding.imagePhone.setOnClickListener {
+            if (ActivityCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.CALL_PHONE
+                ) != PackageManager.PERMISSION_GRANTED
+            )
+            {
+                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CALL_PHONE),
+                    REQUEST_PHONE_CALL
+                )
+            }else{
+                val dialIntent = Intent(Intent.ACTION_CALL, Uri.parse("tel:${contactModel.phone}")
+
+            }
         }
 
         binding.buttonBack.setOnClickListener {
