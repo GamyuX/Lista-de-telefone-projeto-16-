@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Lista de Contatos</string>
+    <string name="login">Login</string>
+    <string name="Usuario">Usuario</string>
+    <string name="Senha">Senha</string>
+    <string name="permanecer_o_login">Permanecer o Login</string>
+    <string name="criar_login">Criar Login</string>
+    <string name="n_o_tem_uma_conta_registre_se">Não tem uma conta? Registre-se</string>
+    <string name="esqueceu_a_senha">Esqueceu a senha?</string>
+    <string name="senha_Incorreta">as Senhas não estão identicas</string>
+    <string name="preencha_todos_os_campos">preencha todos os campos</string>
+    <string name="senha_incorreta">as Senhas não estão identicas</string>
+    <string name="usuario_registrado_com_successo">usuario registrado com successo</string>
+    <string name="erro_ao_cadastrar_usuario">erro ao cadastrar usuario</string>
+    <string name="login_falhou">Login falhou</string>
+    <string name="logout">logout</string>
+</resources>
