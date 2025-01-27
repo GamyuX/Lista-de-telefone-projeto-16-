@@ -26,7 +26,7 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-         db = DBHelper.getInstance(this)
+         db = DBHelper.getInstance()
 
         sharedPreferences = application.getSharedPreferences("LoginPrefs", MODE_PRIVATE)
         val username = sharedPreferences.getString("username", "")

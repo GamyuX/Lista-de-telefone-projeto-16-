@@ -1,4 +1,4 @@
-package com.example.projeto_16
+package com.example.projeto_16.Ui
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,6 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import com.example.projeto_16.R
 import com.example.projeto_16.databinding.ActivityNewContactBinding
 import dataBase.DBHelper
 
@@ -22,7 +23,7 @@ class NewContactActivity : AppCompatActivity() {
         binding = ActivityNewContactBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val db = DBHelper.getInstance(this)
+        val db = DBHelper.getInstance()
         val i = intent
 
         binding.buttonAdd.setOnClickListener {
@@ -59,7 +60,7 @@ class NewContactActivity : AppCompatActivity() {
         launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if(it.data!= null && it.resultCode == RESULT_OK){
                 id= it.data?.extras?.getInt("id")
-                binding.imageViewContact.setImageDrawable(resources.getDrawable(id!!))
+                binding.imageViewContact.setImageResource(id!!)
 
             } else {
 

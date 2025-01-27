@@ -14,7 +14,7 @@ object DBHelper {
 
     private var instance: DatabaseHelper? = null
 
-    fun getInstance(context: Context): DatabaseHelper {
+    fun getInstance(): DatabaseHelper {
         if (instance == null) {
             instance = DatabaseHelper(context)
         }

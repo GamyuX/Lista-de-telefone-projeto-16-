@@ -1,9 +1,10 @@
-package com.example.projeto_16
+package com.example.projeto_16.Ui
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import com.example.projeto_16.R
 import com.example.projeto_16.databinding.ActivityContactImageBinding
 
 class ContactImageActivity : AppCompatActivity() {

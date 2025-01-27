@@ -1,4 +1,4 @@
-package com.example.projeto_16
+package com.example.projeto_16.Ui
 
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -11,6 +11,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import com.example.projeto_16.Manifest
 import com.example.projeto_16.Model.ContactModel
 import com.example.projeto_16.R
 import com.example.projeto_16.databinding.ActivityContactDetailBinding
@@ -19,10 +20,10 @@ import dataBase.DBHelper
 class ContactDetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityContactDetailBinding
-    private lateinit var db: DBHelper
+    private lateinit var db: DBHelper.DatabaseHelper
     private var contactModel = ContactModel()
     private lateinit var launcher: ActivityResultLauncher<Intent>
-    private var imageId: Int? = -1
+    private var imageId: Int = -1
     private val REQUEST_PHONE_CALL = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,7 +34,7 @@ class ContactDetailActivity : AppCompatActivity() {
 
         val i = intent
         val id = i.extras?.getInt("id", 0)
-        val db = DBHelper.getInstance(this)
+        val db = DBHelper.getInstance()
 
         if (id != null) {
             contactModel = db.getContact(id)
@@ -65,8 +66,7 @@ class ContactDetailActivity : AppCompatActivity() {
                     REQUEST_PHONE_CALL
                 )
             }else{
-                val dialIntent = Intent(Intent.ACTION_CALL, Uri.parse("tel:${contactModel.phone}")
-
+                val dialIntent = Intent(Intent.ACTION_CALL, Uri.parse("tel:${contactModel.phone}"))
             }
         }
 
@@ -79,7 +79,6 @@ class ContactDetailActivity : AppCompatActivity() {
             binding.layoutDeleteEdit.visibility = View.GONE
             binding.layoutEdit.visibility = View.VISIBLE
             changeEditText(true)
-
         }
 
         binding.buttonSave.setOnClickListener {
@@ -92,7 +91,7 @@ class ContactDetailActivity : AppCompatActivity() {
                 address = binding.editAddress.text.toString(),
                 email = binding.editEmail.text.toString(),
                 phone = binding.editPhone.text.toString().toInt(),
-                imageId = contactModel.imageId
+                imageId = imageId
             )
             if (res > 0) {
                 Toast.makeText(
@@ -127,7 +126,6 @@ class ContactDetailActivity : AppCompatActivity() {
                 setResult(RESULT_OK, i)
                 finish()
             } else {
-
                 Toast.makeText(applicationContext, "Erro ao deletar contato", Toast.LENGTH_SHORT)
                     .show()
                 setResult(RESULT_CANCELED, i)
@@ -136,23 +134,27 @@ class ContactDetailActivity : AppCompatActivity() {
         }
 
         binding.imageViewContact.setOnClickListener {
-            launcher.launch(Intent(applicationContext, ContactImageActivity::class.java))
+            if (binding.editName.isEnabled) {
+                launcher.launch(
+                    Intent(
+                        applicationContext,
+                        ContactImageActivity::class.java
+                    )
+                )
+            }
         }
         launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.data != null && it.resultCode == RESULT_OK) {
-                imageId = it.data?.extras?.getInt("id")
-                binding.imageViewContact.setImageDrawable(resources.getDrawable(imageId!!))
-
+                if (it.data?.extras != null){
+                    imageId = it.data?.getIntExtra("id",0)!!
+                    binding.imageViewContact.setImageResource(imageId!!)
+                }
             } else {
-
                 imageId = -1
                 binding.imageViewContact.setImageResource(R.drawable.user)
-
             }
         }
-
     }
-
     private fun changeEditText(status: Boolean) {
         binding.editName.isEnabled = status
         binding.editAddress.isEnabled = status
@@ -161,19 +163,14 @@ class ContactDetailActivity : AppCompatActivity() {
     }
 
     private fun populate() {
-
             binding.editName.setText(contactModel.name)
             binding.editAddress.setText(contactModel.address)
             binding.editEmail.setText(contactModel.email)
             binding.editPhone.setText(contactModel.phone.toString())
         if (contactModel.imageId > 0) {
-
-            binding.imageViewContact.setImageDrawable(resources.getDrawable(contactModel.imageId))
-
+            binding.imageViewContact.setImageResource(imageId)
         } else {
-
             binding.imageViewContact.setImageResource(R.drawable.user)
-
         }
     }
 }

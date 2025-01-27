@@ -18,7 +18,7 @@ class SingUpActivity : AppCompatActivity() {
         binding = ActivitySingUpBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val db = DBHelper()
+        val db = DBHelper.getInstance()
 
         binding.buttonLogin.setOnClickListener {
             val username = binding.editUsername.text.toString()
