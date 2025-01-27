@@ -16,7 +16,7 @@ object DBHelper {
 
     fun getInstance(): DatabaseHelper {
         if (instance == null) {
-            instance = DatabaseHelper(context)
+            instance = DatabaseHelper()
         }
         return instance!!
     }
